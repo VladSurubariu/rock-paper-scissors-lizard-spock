@@ -36,8 +36,8 @@
 }
 
 .circle{
-    height: 120px;
-    width: 120px;
+    height: 140px;
+    width: 140px;
     border-radius: 50%;
     background-color: transparent;
 }
@@ -60,7 +60,7 @@
     position: relative;
 }
 
-.menu-items>div{
+.item{
     background-color: transparent;
     height: 100px;
     width:100px;
@@ -70,6 +70,7 @@
     position: relative;
     font-size:43px; 
     transition: ease-in-out 0.2s;
+    pointer-events: none;
 }
 
 .menu{
@@ -96,4 +97,9 @@
 
 #item5{
     left:-200px; 
+}
+
+.hidden{
+    width:0px;
+    height:0px;
 }
