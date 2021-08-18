@@ -1,0 +1,32 @@
+.scoreboard{
+    margin: auto;
+    width: 50%;
+    padding: 30px;
+    background-color: red;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.containers{
+    width: 90%;
+    height: 500px;
+    background-color: red;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 50px;
+}
+
+.user-container{
+    width: 50%;
+    height: 400px;
+    margin: 50px;
+    background-color: blue;
+}
+
+.computer-container{
+    width: 50%;
+    height: 400px;
+    margin: 50px;
+    background-color: blue;
+}
