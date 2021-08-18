@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     const menuOptionsUser=document.querySelectorAll('.item.user')
     const userOptions=document.querySelectorAll('.user')
-
-    const menuComputer=document.querySelector('.menu.computer')
     
     const rockComputer=document.querySelector('#item1.computer')
     const paperComputer=document.querySelector('#item2.computer')
@@ -19,17 +17,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const lizardComputer=document.querySelector('#item4.computer')
     const spockComputer=document.querySelector('#item5.computer')
 
-    const menuOptionsComputer=document.querySelectorAll('.item.computer')
-    const computerOptions=document.querySelectorAll('.computer')
+    const scoreBoard=document.querySelector(".scoreboard")
 
     var computerChoiceIndex;
 
     var losesAgainst=[
-        ["spock", "paper"], //rock
-        ["scissors","lizard"], //paper
-        ["rock","spock"], //scissors
-        ["rock","scissors"], //lizard
-        ["paper", "lizard"] //spock
+        [4, 1], //rock-0
+        [2, 3], //paper-1
+        [0, 4], //scissors-2
+        [0, 2], //lizard-3
+        [1, 3] //spock-4
     ];
 
     var index=0;
@@ -37,13 +34,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let options=['rock','paper','scissors','lizard','spock']
     
     var chosenOption
+
+    var userScore=0
+
+    var computerScore=0
+
+    var numberOfRoundsPlayed=-1
     
     function pop(){
         if(index==0){
-            document.getElementById("item1").style.transform='translate(-150px,-50px)'
-            document.getElementById("item2").style.transform='translate(0, -190px)'
-            document.getElementById("item3").style.transform='translate(150px, -50px)'
-            document.getElementById("item4").style.transform='translate(-75px, 90px)'
+            document.getElementById("item1").style.transform='translate(-150px,-70px)'
+            document.getElementById("item2").style.transform='translate(0, -205px)'
+            document.getElementById("item3").style.transform='translate(150px, -70px)'
+            document.getElementById("item4").style.transform='translate(-75px, 75px)'
             document.getElementById("item5").style.transform='translate(75px, 75px)'
             menuOptionsUser.forEach(option => {
                 option.style.pointerEvents="auto"
@@ -112,8 +115,73 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     }
 
-    function settleScore(){
+    function resetMenuButtons(){
+        rockUser.style.zIndex="1"
+        paperUser.style.zIndex="1"
+        scissorsUser.style.zIndex="1"
+        lizardUser.style.zIndex="1"
+        spockUser.style.zIndex="1"
 
+        rockComputer.style.zIndex="1"
+        paperComputer.style.zIndex="1"
+        scissorsComputer.style.zIndex="1"
+        lizardComputer.style.zIndex="1"
+        spockComputer.style.zIndex="1"
+    }
+
+    function settleScore(){
+        if(losesAgainst[chosenOption][0]==computerChoiceIndex || losesAgainst[chosenOption][1]==computerChoiceIndex){
+            computerScore++
+        }
+        else if (losesAgainst[computerChoiceIndex][0]==chosenOption || losesAgainst[computerChoiceIndex][1]==chosenOption){
+            userScore++
+        }
+        else{
+           computerScore++
+           userScore++
+        }
+        numberOfRoundsPlayed++
+    }
+
+    function updateScore(){
+        const userText="User ";
+        const computerText=" Computer"
+        const dashText="-"
+        scoreboardText=userText.concat(userScore).concat(dashText).concat(computerScore).concat(computerText)
+        scoreBoard.innerHTML=scoreboardText
+    }
+
+    function reset(){
+        index=0
+        computerChoiceIndex=[]
+        chosenOption=[]
+        menuOptionsUser.forEach(option => {
+            option.style.pointerEvents="auto"
+        });
+        updateScore()
+        setTimeout(function(){
+            menuUser.classList.remove('hidden') 
+            resetMenuButtons(); 
+            pop()
+        }, 3000);
+        
+    }
+
+    function checkIfGameEnded(){
+        if(numberOfRoundsPlayed==10 || computerScore==6 || userScore==6)
+            return 1
+        else 
+            return 0
+    }
+
+    function checkWhoWon(){
+        console.log(userScore, computerScore, numberOfRoundsPlayed)
+        if(computerScore>userScore)
+            alert("Computer won")
+        else if(computerScore<userScore)
+            alert("User won")
+        else if(computerScore==userScore)
+            alert("Tie")
     }
     
     function userEndTurn(){
@@ -122,7 +190,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
         returnChosenOption()
         computerChoice()
         settleScore()
-
+        if(checkIfGameEnded()){
+            console.log("end")
+            console.log(userScore, computerScore, numberOfRoundsPlayed)
+            checkWhoWon()
+        }
+        else{
+            reset()
+            console.log(userScore, computerScore, numberOfRoundsPlayed)
+            console.log("reset")
+        }
     }
 
     function rockOption(){
