@@ -1,0 +1,38 @@
+body{
+    margin: 0px;
+    background-color: #f3f3f3;
+}
+
+*, *::before, *::after{
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+
+.splash-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:60vh; 
+}
+
+.splash-title{
+    font-family: 'Bangers', cursive;
+    font-size: 10rem;
+}
+
+.reset-game{
+    background-color: #E1E5EA;
+    padding: .5em 1em;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: .2em;
+    color: #333;
+}
+
+.reset-game:hover, .reset-game:focus{
+    background-color: #A7BBC7;
+} 

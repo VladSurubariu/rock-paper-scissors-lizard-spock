@@ -1,48 +1,51 @@
 document.addEventListener('DOMContentLoaded', ()=>{
 
-    const menuUser=document.querySelector('.menu.user')
+    //objects and variables are initialised
+
+    const menuUser=document.querySelector('.menu.user') //the question-mark button
     
-    const rockUser=document.querySelector('#item1.user')
-    const paperUser=document.querySelector('#item2.user')
-    const scissorsUser=document.querySelector('#item3.user')
-    const lizardUser=document.querySelector('#item4.user')
-    const spockUser=document.querySelector('#item5.user')
+    const rockUser=document.querySelector('#item1.user') //the rock image that appeares when the menu pops-up
+    const paperUser=document.querySelector('#item2.user') //the paper image that appeares when the menu pops-up
+    const scissorsUser=document.querySelector('#item3.user') //the scissors image that appeares when the menu pops-up
+    const lizardUser=document.querySelector('#item4.user') //the lizard image that appeares when the menu pops-up
+    const spockUser=document.querySelector('#item5.user') //the spock image that appeares when the menu pops-up
 
-    const menuOptionsUser=document.querySelectorAll('.item.user')
-    const userOptions=document.querySelectorAll('.user')
+    const menuOptionsUser=document.querySelectorAll('.item.user') //the options that can be selected by the user
+    const userOptions=document.querySelectorAll('.user') //everything that can be clicked by the user
     
-    const rockComputer=document.querySelector('#item1.computer')
-    const paperComputer=document.querySelector('#item2.computer')
-    const scissorsComputer=document.querySelector('#item3.computer')
-    const lizardComputer=document.querySelector('#item4.computer')
-    const spockComputer=document.querySelector('#item5.computer')
+    const rockComputer=document.querySelector('#item1.computer') //the rock image that appears when the computer choice is shown
+    const paperComputer=document.querySelector('#item2.computer') //the paper image that appears when the computer choice is shown
+    const scissorsComputer=document.querySelector('#item3.computer') //the scissors image that appears when the computer choice is shown
+    const lizardComputer=document.querySelector('#item4.computer') //the rock image that appears when the computer choice is shown
+    const spockComputer=document.querySelector('#item5.computer') //the rock image that appears when the computer choice is shown
 
-    const scoreBoard=document.querySelector(".scoreboard")
+    const scoreBoard=document.querySelector(".scoreboard") //the scoreboard
 
-    var computerChoiceIndex;
+    var computerChoiceIndex; //the index of the option chosen by the computer
 
-    var losesAgainst=[
-        [4, 1], //rock-0
-        [2, 3], //paper-1
-        [0, 4], //scissors-2
-        [0, 2], //lizard-3
-        [1, 3] //spock-4
+    var losesAgainst=[ //the matrix that contains the enemies of every element
+        [4, 1], //the enemies of  number 0(rock): number 4(spock) and number 1 (paper)
+        [2, 3], //the enemies of  number 1(paper): number 2(scissors) and number 3 (lizard)
+        [0, 4], //the enemies of  number 2(scissors): number 0(rock) and number 4 (spock)
+        [0, 2], //the enemies of  number 3(lizard): number 0(rock) and number 2 (scissors)
+        [1, 3] //the enemies of  number 4(spock): number 1(paper) and number 3 (lizard)
     ];
 
-    var index=0;
+    var popUpIndex=0; //the index that takes value 0 if the pop-up menu is closed and value 1 if the menu is opened
 
     let options=['rock','paper','scissors','lizard','spock']
     
-    var chosenOption
+    var chosenOption //the variable used to store the index of the option chosen by user
 
-    var userScore=0
+    var userScore=0 //the variable used to store the number of rounds won by the user
 
-    var computerScore=0
+    var computerScore=0 //the variable used to store the number of rounds won by the computer
 
-    var numberOfRoundsPlayed=-1
+    var numberOfRoundsPlayed=-1 //the variable used to store the number of rounds played
     
+    //function used to animate the pop-up menu where the user can choose what he desires to use
     function pop(){
-        if(index==0){
+        if(popUpIndex==0){
             document.getElementById("item1").style.transform='translate(-150px,-70px)'
             document.getElementById("item2").style.transform='translate(0, -205px)'
             document.getElementById("item3").style.transform='translate(150px, -70px)'
@@ -51,7 +54,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             menuOptionsUser.forEach(option => {
                 option.style.pointerEvents="auto"
             });
-            index=1
+            popUpIndex=1
             return
         }
         else{
@@ -63,7 +66,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             menuOptionsUser.forEach(option => {
                 option.style.pointerEvents="none"
             });
-            index=0;
+            popUpIndex=0;
             return
         }
     }
@@ -137,8 +140,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             userScore++
         }
         else{
-           computerScore++
-           userScore++
+           numberOfRoundsPlayed--
         }
         numberOfRoundsPlayed++
     }
@@ -152,54 +154,47 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     function reset(){
-        index=0
+        popUpIndex=0
         computerChoiceIndex=[]
         chosenOption=[]
         menuOptionsUser.forEach(option => {
             option.style.pointerEvents="auto"
         });
-        updateScore()
         setTimeout(function(){
             menuUser.classList.remove('hidden') 
             resetMenuButtons(); 
-            pop()
+            checkIfAnyoneWon()
         }, 3000);
         
     }
 
     function checkIfGameEnded(){
-        if(numberOfRoundsPlayed==10 || computerScore==6 || userScore==6)
+        if(numberOfRoundsPlayed==11 || computerScore==6 || userScore==6)
             return 1
         else 
             return 0
     }
 
-    function checkWhoWon(){
-        console.log(userScore, computerScore, numberOfRoundsPlayed)
-        if(computerScore>userScore)
-            alert("Computer won")
-        else if(computerScore<userScore)
-            alert("User won")
-        else if(computerScore==userScore)
-            alert("Tie")
+    function checkIfAnyoneWon(){
+        if(checkIfGameEnded()==0){
+            pop()
+        }
+        else{
+            if(computerScore>userScore)
+            document.location ="file:///D:/Proiecte/Web%20Dev/Rock-Paper-Scissors-Lizzard-Spock/splashGameOverLose.html";
+            else if(computerScore<userScore)
+            document.location ="file:///D:/Proiecte/Web%20Dev/Rock-Paper-Scissors-Lizzard-Spock/splashGameOverWin.html";
+        }
     }
     
     function userEndTurn(){
-        index=1
+        popUpIndex=1
         pop()
         returnChosenOption()
         computerChoice()
         settleScore()
-        if(checkIfGameEnded()){
-            console.log("end")
-            console.log(userScore, computerScore, numberOfRoundsPlayed)
-            checkWhoWon()
-        }
-        else{
-            reset()
-            console.log(userScore, computerScore, numberOfRoundsPlayed)
-            console.log("reset")
-        }
+        updateScore()  
+        reset()
     }
 
     function rockOption(){
