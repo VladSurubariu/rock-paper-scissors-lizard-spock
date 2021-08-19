@@ -168,10 +168,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         popUpIndex=0 //the popUpIndex goes back to 0
         computerChoiceIndex=[] //computerChoice is deinitialised
         chosenOption=[] //user choice is deinitialised
-        menuOptionsUser.forEach(option => { //every option becomes clickable
-            option.style.pointerEvents="auto"
-        });
         setTimeout(function(){ //after 3 seconds
+            menuOptionsUser.forEach(option => { //every option becomes clickable
+                option.style.pointerEvents="auto"
+            });
             menuUser.classList.remove('hidden') //the pop-up menu can be used 
             resetMenuButtons()
             checkIfGameContinues() //check if anyone won
